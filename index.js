@@ -38,32 +38,6 @@ async function run() {
     });
 
     //# Find All The Product Of The Categories :
-    // app.get("/products", async (req, res) => {
-    //   const email = req.query.email;
-    // const filter = { productSellerEmail: email };
-    // const result2 = await productsCollection.find(filter);
-
-    // const name = req.query.categoryName;
-    // const query2 = {
-    //   ProductCategory: name,
-    // };
-
-    //   const query = {};
-    //   const result = await productsCollection.find(query).toArray();
-    //   res.send(result);
-    // });
-
-    // //# Find All The Product Of The Categories :
-    // app.get("/products", async (req, res) => {
-    //   const name = req.query.categoryName;
-    //   const query2 = {
-    //     ProductCategory: name,
-    //   };
-    //   const result = await productsCollection.find(query2).toArray();
-    //   res.send(result);
-    // });
-
-    //# Find All The Product Of The Categories :
     app.get("/products", async (req, res) => {
       const name = req.query.categoryName;
       let query = {};
@@ -92,6 +66,8 @@ async function run() {
 
     //# Get All Users :
     app.get("/users", async (req, res) => {
+      const email = req.query.email;
+      console.log(email);
       const seller = req.query.role;
       const buyer = req.query.role;
       let query = {};
@@ -104,6 +80,12 @@ async function run() {
       if (buyer) {
         query = {
           role: buyer,
+        };
+      }
+
+      if (email) {
+        query = {
+          email: email,
         };
       }
       const result = await usersCollection.find(query).toArray();
