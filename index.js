@@ -38,19 +38,19 @@ async function run() {
 
     //# Find All The Product Of The Categories :
     app.get("/products", async (req, res) => {
-      const query = {};
+      const name = req.query.categoryName;
+      console.log(name);
+      const query = { ProductCategory: name };
       const result = await productsCollection.find(query).toArray();
       res.send(result);
     });
 
-    //# Find Products To Use Category Name :
+    // //# Find Products To Use Category Name :
+    // app.get("/products", async (req, res) => {
 
-    // app.get("/products/:categoryName", async (req, res) => {
-    //   const name = req.query;
-    //   console.log(name);
-    //   const query = { ProductCategory: name };
-    //   const result = await productsCollection.find(query);
-    //   res.send(result);
+    // const query = { ProductCategory: name };
+    // const result = await productsCollection.find(query);
+    // res.send(result);
     // });
 
     // //# Find Categories Product To Use Category Name  :
