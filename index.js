@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
 
 //# MongoDB Setup :
 
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const { query } = require("express");
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.cqqhz9d.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
@@ -67,27 +67,25 @@ async function run() {
     //# Get All Users :
     app.get("/users", async (req, res) => {
       const email = req.query.email;
-      console.log(email);
       const seller = req.query.role;
       const buyer = req.query.role;
       let query = {};
+      if (email) {
+        query = {
+          email: email,
+        };
+      }
       if (seller) {
         query = {
           role: seller,
         };
       }
-
       if (buyer) {
         query = {
           role: buyer,
         };
       }
 
-      if (email) {
-        query = {
-          email: email,
-        };
-      }
       const result = await usersCollection.find(query).toArray();
       res.send(result);
     });
@@ -99,7 +97,15 @@ async function run() {
       res.send(result);
     });
 
-    //# Get All Users :
+    //# Delete Buyer & Sellers :
+    app.delete("/users/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await usersCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    //# Get Booking Information :
     app.get("/booking", async (req, res) => {
       const email = req.query.email;
       let query = {};
