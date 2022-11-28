@@ -124,6 +124,22 @@ async function run() {
       res.send({ isAdmin: user?.role === "admin" });
     });
 
+    //# Get All Seller:
+    app.get("/users/seller/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email };
+      const user = await usersCollection.findOne(query);
+      res.send({ isSeller: user?.role === "Seller" });
+    });
+
+    //# Get All User:
+    app.get("/users/user/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email };
+      const user = await usersCollection.findOne(query);
+      res.send({ isUser: user?.role === "User" });
+    });
+
     //# Post All Users:
     app.post("/users", async (req, res) => {
       const users = req.body;
