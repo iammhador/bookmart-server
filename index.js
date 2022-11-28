@@ -123,6 +123,24 @@ async function run() {
       res.send(result);
     });
 
+    //# Seller Verification:
+    app.put("/users/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          sellerVerification: "true",
+        },
+      };
+      const result = await usersCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+      res.send(result);
+    });
+
     //# Delete Buyer & Sellers :
     app.delete("/users/:id", async (req, res) => {
       const id = req.params.id;
